@@ -1,12 +1,12 @@
 declare global {
   interface Window {
     registration: any;
+    workbok: any;
   }
 }
 
 import { clientsClaim } from "workbox-core";
 import { registerRoute } from "workbox-routing";
-import { LS_DATA } from "../constants/config";
 import { setListBestScore, getListBestScoreSync, delItemListBestScoreSync } from "./utils";
 
 clientsClaim();
