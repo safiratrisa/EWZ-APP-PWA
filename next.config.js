@@ -5,7 +5,7 @@ const config = {
   reactStrictMode: true,
   pwa: {
     dest: "public",
-    regsiter: true,
+    register: true,
     skipWaiting: true,
   },
 };
