@@ -37,14 +37,14 @@ const Nav: React.FC<{ active: "game" | "achivement" }> = ({ active }) => {
     >
       <Box style={{ marginRight: 30 }}>
         <Link href="/" passHref>
-          <a>
+          <a aria-label="Game">
             <IcGrGamepad active={active === "game"} fontSize={35} />
           </a>
         </Link>
       </Box>
       <Box style={{ marginLeft: 30 }}>
         <Link href="/achivement" passHref>
-          <a>
+          <a aria-label="Achivement">
             <IcGrAchievment active={active === "achivement"} fontSize={35} />
           </a>
         </Link>
