@@ -99,12 +99,6 @@ const App: NextPage = () => {
     else setUser(JSON.parse(dataUser));
   }, [open]);
 
-  useEffect(() => {
-    Notification.requestPermission((response) => {
-      console.log(response);
-    });
-  }, []);
-
   return (
     <>
       <Head>

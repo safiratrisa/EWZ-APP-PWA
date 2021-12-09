@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { LS_DATA } from "../constants/config";
 import { entries, createStore } from "idb-keyval";
 import Head from "next/head";
+import Button from "../components/Button";
 
 export type Configuration = {
   theme: ThemeName;
@@ -101,6 +102,17 @@ const Acivment: NextPage = () => {
                 );
               })}
             </Box>
+            <br />
+            <br />
+            <Button
+              onClick={() => {
+                Notification.requestPermission((response) => {
+                  alert(response === "granted" ? "Notifikasi Telah Aktif" : "Notifikasi Tidak Aktif");
+                });
+              }}
+            >
+              Notification Request
+            </Button>
           </Box>
         </Box>
         <Nav active="achivement" />
