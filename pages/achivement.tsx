@@ -10,6 +10,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 import { LS_DATA } from "../constants/config";
 import { entries, createStore } from "idb-keyval";
+import Head from "next/head";
 
 export type Configuration = {
   theme: ThemeName;
@@ -65,41 +66,46 @@ const Acivment: NextPage = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={themeValue}>
-      <Box justifyContent="center" inlineSize="100%" blockSize="100%" alignItems="start" borderRadius={0}>
-        <Box justifyContent="center" flexDirection="column" inlineSize={`${GRID_SIZE}px`}>
-          <Box>
-            <Text fontSize={64} fontWeight="bold" color="primary">
-              EWZ Score
-            </Text>
-          </Box>
-          <Box flexDirection="column" style={{ marginTop: 20 }}>
-            {listRangking.map(({ id, name, score }, index) => {
-              return (
-                <Box key={id} style={{ marginBottom: 20, width: "100%" }} justifyContent="space-between">
-                  <Box style={{ marginRight: 20 }}>
-                    <Text fontSize={14} fontWeight="bold" color="primary">
-                      ({index + 1})
-                    </Text>
+    <>
+      <Head>
+        <title>EWZ PWS Achivment</title>
+      </Head>
+      <ThemeProvider theme={themeValue}>
+        <Box justifyContent="center" inlineSize="100%" blockSize="100%" alignItems="start" borderRadius={0}>
+          <Box justifyContent="center" flexDirection="column" inlineSize={`${GRID_SIZE}px`}>
+            <Box>
+              <Text fontSize={64} fontWeight="bold" color="primary">
+                EWZ Score
+              </Text>
+            </Box>
+            <Box flexDirection="column" style={{ marginTop: 20 }}>
+              {listRangking.map(({ id, name, score }, index) => {
+                return (
+                  <Box key={id} style={{ marginBottom: 20, width: "100%" }} justifyContent="space-between">
+                    <Box style={{ marginRight: 20 }}>
+                      <Text fontSize={14} fontWeight="bold" color="primary">
+                        ({index + 1})
+                      </Text>
+                    </Box>
+                    <Box style={{ minWidth: 200 }}>
+                      <Text fontSize={14} color={user.id === id ? "tile64" : "primary"}>
+                        {name} {user.id === id ? "(you)" : ""}
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize={14} fontWeight="bold" color="primary">
+                        {score}
+                      </Text>
+                    </Box>
                   </Box>
-                  <Box style={{ minWidth: 200 }}>
-                    <Text fontSize={14} color={user.id === id ? "tile64" : "primary"}>
-                      {name} {user.id === id ? "(you)" : ""}
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Text fontSize={14} fontWeight="bold" color="primary">
-                      {score}
-                    </Text>
-                  </Box>
-                </Box>
-              );
-            })}
+                );
+              })}
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Nav active="achivement" />
-    </ThemeProvider>
+        <Nav active="achivement" />
+      </ThemeProvider>
+    </>
   );
 };
 

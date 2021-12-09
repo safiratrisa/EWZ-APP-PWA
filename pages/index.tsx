@@ -18,6 +18,7 @@ import Nav from "../components/Nav";
 import DialogRegister from "../components/DialogRegister";
 import { APP_NAME, LS_DATA } from "../constants/config";
 import { addListBestScoreSync } from "../worker/utils";
+import Head from "next/head";
 
 export type Configuration = {
   theme: ThemeName;
@@ -99,46 +100,51 @@ const App: NextPage = () => {
   }, [open]);
 
   return (
-    <ThemeProvider theme={themeValue}>
-      <Box justifyContent="center" inlineSize="100%" blockSize="100%" alignItems="start" borderRadius={0}>
-        <Box justifyContent="center" flexDirection="column" inlineSize={`${GRID_SIZE}px`}>
-          <Box inlineSize="100%" justifyContent="space-between" marginBlockStart="s2">
-            <Box>
-              <Text onClick={() => setGameStatus("lost")} fontSize={64} fontWeight="bold" color="primary">
-                EWZ
-              </Text>
+    <>
+      <Head>
+        <title>EWZ PWS Game</title>
+      </Head>
+      <ThemeProvider theme={themeValue}>
+        <Box justifyContent="center" inlineSize="100%" blockSize="100%" alignItems="start" borderRadius={0}>
+          <Box justifyContent="center" flexDirection="column" inlineSize={`${GRID_SIZE}px`}>
+            <Box inlineSize="100%" justifyContent="space-between" marginBlockStart="s2">
+              <Box>
+                <Text onClick={() => setGameStatus("lost")} fontSize={64} fontWeight="bold" color="primary">
+                  EWZ
+                </Text>
+              </Box>
+              <Box justifyContent="center">
+                <ScoreBoard total={total} title="score" />
+                <ScoreBoard total={best} title="best" />
+              </Box>
             </Box>
-            <Box justifyContent="center">
-              <ScoreBoard total={total} title="score" />
-              <ScoreBoard total={best} title="best" />
+            <Box marginBlockStart="s2" marginBlockEnd="s6" inlineSize="100%">
+              <Control
+                user={user}
+                rows={rows}
+                cols={cols}
+                onReset={onResetGame}
+                onChangeRow={setRows}
+                onChangeCol={setCols}
+              />
             </Box>
-          </Box>
-          <Box marginBlockStart="s2" marginBlockEnd="s6" inlineSize="100%">
-            <Control
-              user={user}
+            <GameBoard
+              tiles={tiles}
+              boardSize={GRID_SIZE}
               rows={rows}
               cols={cols}
-              onReset={onResetGame}
-              onChangeRow={setRows}
-              onChangeCol={setCols}
+              spacing={SPACING}
+              gameStatus={gameStatus}
+              onMove={onMove}
+              onMovePending={onMovePending}
+              onCloseNotification={onCloseNotification}
             />
           </Box>
-          <GameBoard
-            tiles={tiles}
-            boardSize={GRID_SIZE}
-            rows={rows}
-            cols={cols}
-            spacing={SPACING}
-            gameStatus={gameStatus}
-            onMove={onMove}
-            onMovePending={onMovePending}
-            onCloseNotification={onCloseNotification}
-          />
         </Box>
-      </Box>
-      <Nav active="game" />
-      <DialogRegister open={open} onClose={() => setDialog(false)} />
-    </ThemeProvider>
+        <Nav active="game" />
+        <DialogRegister open={open} onClose={() => setDialog(false)} />
+      </ThemeProvider>
+    </>
   );
 };
 

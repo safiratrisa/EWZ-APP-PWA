@@ -29,7 +29,7 @@ export default class MyDocument extends Document {
   }
   render(): JSX.Element {
     return (
-      <Html lang="en" dir="ltr">
+      <Html lang="id">
         <Head>
           <meta name="application-name" content={APP_NAME} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
