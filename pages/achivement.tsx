@@ -79,7 +79,7 @@ const Acivment: NextPage = () => {
                 EWZ Score
               </Text>
             </Box>
-            <Box flexDirection="column" style={{ marginTop: 20 }}>
+            <Box flexDirection="column" style={{ marginTop: 20, minHeight: 300 }}>
               {listRangking.map(({ id, name, score }, index) => {
                 return (
                   <Box key={id} style={{ marginBottom: 20, width: "100%" }} justifyContent="space-between">

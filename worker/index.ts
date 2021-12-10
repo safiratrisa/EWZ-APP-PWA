@@ -15,8 +15,10 @@ registerRoute(
     return request.url.includes("api/list-bestscore") && request.method === "GET";
   },
   async function (args) {
+    console.log("get-list-best-score");
     const response = await fetch(args.event.request);
     const { data } = await response.clone().json();
+    console.log("get-list-best-score_success");
     setListBestScore(data);
     return response;
   }
