@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { LS_DATA } from "../../constants/config";
 import Button from "../Button";
@@ -42,14 +42,31 @@ const DialogBox = styled("div")`
 const DialogRegister: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const onClickRegister = () => {
+  const [userLocation, setUserLocation] = useState('')
+
+  const onClickLocation = async () => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const geoApi = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=id`
+      fetch(geoApi)
+      .then(res=>res.json())
+      .then(data => {
+        setUserLocation(data.principalSubdivision)
+      })
+      .catch(()=> setUserLocation('-'))
+    }, function(err){
+    }, { timeout: 10000 })
+  }
+
+  const onClickRegister = async() => {
     if (!inputRef.current?.value) {
       alert("Nama Kosong");
     } else {
       localStorage.setItem(
         LS_DATA,
         JSON.stringify({
-          name: inputRef.current.value,
+          name: `${inputRef.current.value} | ${userLocation}`,
           id: Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1),
@@ -67,7 +84,10 @@ const DialogRegister: React.FC<{ open: boolean; onClose: () => void }> = ({ open
           <input ref={inputRef} placeholder="Nama" type="text" />
         </div>
         <div className="action">
-          <Button onClick={onClickRegister}>Daftar</Button>
+          <Button onClick={onClickLocation} disable={userLocation!==''}>Get Location</Button>
+        </div>
+        <div className="action">
+          <Button onClick={onClickRegister} disable={userLocation===''}>Daftar</Button>
         </div>
       </DialogBox>
     </DialogOverlay>
