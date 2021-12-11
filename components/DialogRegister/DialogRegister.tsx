@@ -30,12 +30,17 @@ const DialogBox = styled("div")`
   }
   .action {
     margin-top: 20px;
+    margin-right: 10px;
   }
   input {
     border-radius: 10px;
     height: 40px;
     text-align: center;
     border: 1px solid gray;
+  }
+  .actionContainer {
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -44,7 +49,11 @@ const DialogRegister: React.FC<{ open: boolean; onClose: () => void }> = ({ open
 
   const [userLocation, setUserLocation] = useState('')
 
-  const onClickLocation = async () => {
+  const onClickLocation = () => {
+    setUserLocation('-')
+    if(!('geolocation' in navigator)) {
+      return;
+    }
     navigator.geolocation.getCurrentPosition(function(position) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
@@ -83,11 +92,13 @@ const DialogRegister: React.FC<{ open: boolean; onClose: () => void }> = ({ open
         <div className="body">
           <input ref={inputRef} placeholder="Nama" type="text" />
         </div>
-        <div className="action">
-          <Button onClick={onClickLocation} disable={userLocation!==''}>Get Location</Button>
-        </div>
-        <div className="action">
-          <Button onClick={onClickRegister} disable={userLocation===''}>Daftar</Button>
+        <div className="actionContainer">
+          <div className="action">
+            <Button onClick={onClickLocation} disable={userLocation!==''}>Get Location</Button>
+          </div>
+          <div className="action">
+            <Button onClick={onClickRegister} disable={userLocation===''}>Daftar</Button>
+          </div>
         </div>
       </DialogBox>
     </DialogOverlay>
